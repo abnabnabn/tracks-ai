@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: development # Also target dev stage for backend consistency if needed
+    container_name: music-track-server
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server/src:/usr/src/app/src
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+    # Command overridden by target stage's CMD usually, or keep if needed:
+    # command: npm run dev
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: development # <-- Add this line to specify the stage
+    container_name: music-track-client
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount source code for development hot-reloading
+      # Note: node_modules should generally NOT be mounted from host
+      - ./client/src:/usr/src/app/src
+      # - ./client/public:/usr/src/app/public # Not needed if index.html is at root
+      - ./client/index.html:/usr/src/app/index.html # Mount moved index.html
+    depends_on:
+      - server
+    networks:
+      - app-network
+    stdin_open: true
+    tty: true
+    # Command is taken from the target stage's CMD in Dockerfile
+
+  mongo:
+    image: mongo:latest
+    container_name: music-track-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./server/mongo-init:/docker-entrypoint-initdb.d
+    env_file:
+      - ./server/.env
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "composite": true, // Required for project references
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler", // Or "NodeNext" depending on setup
+    "allowSyntheticDefaultImports": true,
+    "strict": true // Recommended
+  },
+  "include": [
+    "vite.config.ts" // Include Vite config and potentially other Node scripts
+  ]
+}
