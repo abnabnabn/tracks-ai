@@ -43,7 +43,7 @@ services:
     # Command is taken from the target stage's CMD in Dockerfile
 
   mongo:
-    image: mongo:latest
+    image: mongo:4.4
     container_name: music-track-db
     ports:
       - "27017:27017"

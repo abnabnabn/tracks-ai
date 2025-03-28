@@ -15,12 +15,12 @@ export default defineConfig({
     port: 3000, // Development server port
     host: true, // Listen on all network interfaces (needed for Docker)
     // Optional: Proxy API requests to backend to avoid CORS issues during development
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://server:3001', // Target backend service name in Docker
-    //     changeOrigin: true,
-    //     // rewrite: (path) => path.replace(/^\/api/, ''), // Remove /api prefix if backend doesn't expect it
-    //   },
-    // },
+    proxy: {
+      '/api': {
+        target: 'http://server:3001', // Target backend service name in Docker
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/api/, ''), // Remove /api prefix if backend doesn't expect it
+      },
+    },
   },
 })

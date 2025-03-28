@@ -4,13 +4,13 @@
 // For consistency, let's explicitly switch to the database used by our app.
 
 // Use the database name defined in your .env file (e.g., musicTracksDB)
-const dbName = process.env.MONGO_DB_NAME || 'musicTracksDB';
+const dbName = 'musicTracksDB';
 db = db.getSiblingDB(dbName);
 
 print(`[Seed Script] Starting seeding for database: ${dbName}`);
 
 // Optional: Check if the collection already has data (useful if script runs unexpectedly)
-const count = db.tracks.countDocuments();
+const count = db.tracks.countDocuments({});
 if (count > 0) {
   print(`[Seed Script] Collection 'tracks' already contains ${count} documents. Skipping seeding.`);
 } else {
